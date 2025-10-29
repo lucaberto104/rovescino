@@ -1,0 +1,219 @@
+/* --- Base --- */
+:root{
+  --bg:#f7f7fb;
+  --card:#ffffff;
+  --text:#111;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --brand:#0a7;
+  --brand-ink:#065f46;
+  --danger:#e22;
+  --gold:#e8c30b;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background:var(--bg); color:var(--text);
+}
+
+/* Focus chiaro e coerente */
+:where(button, [role="button"], input, select, textarea):focus-visible{
+  outline:3px solid rgba(13,148,136,.35);
+  outline-offset:2px;
+  border-radius:.6rem;
+}
+
+/* --- Topbar --- */
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:.75rem 1rem; background:#0f172a; color:#fff;
+  position:sticky; top:0; z-index:100;
+}
+.topbar h1{ font-size:1.1rem; margin:0; letter-spacing:.2px; }
+.topbar button{
+  background:#1f2937; color:#fff; border:1px solid #334155;
+  padding:.4rem .6rem; border-radius:.5rem; cursor:pointer;
+}
+.topbar button:hover{ background:#111827; }
+
+/* --- Main + actions --- */
+main{ padding: 1rem; }
+.bar{
+  display:flex; align-items:center; gap:.5rem; flex-wrap:wrap;
+  margin:.75rem 0 1rem;
+}
+.spacer{ flex:1 1 auto; }
+#restanoBadge{
+  padding:.25rem .5rem; background:#eef2ff; border:1px solid #c7d2fe; border-radius:.5rem;
+  color:#1e3a8a; font-weight:600;
+}
+button{
+  padding:.5rem .75rem; border-radius:.6rem; border:1px solid var(--line);
+  background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.05); cursor:pointer;
+  transition: transform .06s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+}
+button:hover{ background:#f9fafb; }
+button:active{ transform: translateY(1px); }
+button:disabled{ opacity:.55; cursor:not-allowed; }
+
+#update-round{
+  background:var(--brand); border-color:var(--brand); color:#fff;
+}
+#update-round:hover{ filter:brightness(0.98); }
+
+/* --- Cards grid --- */
+.score-cards{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+  gap:1rem;
+}
+
+/* --- Player card --- */
+.player-card{
+  position:relative; background:var(--card); border:1px solid var(--line);
+  border-radius:.9rem; padding:.9rem; box-shadow:0 1px 2px rgba(0,0,0,.04);
+}
+.player-card.is-dealer{ box-shadow:0 0 0 2px var(--gold) inset; }
+.dealer-icon{
+  position:absolute; top:4px; right:4px; opacity:.25; filter:grayscale(1);
+  transition: opacity .2s ease, filter .2s ease, transform .2s ease;
+}
+.player-card.is-dealer .dealer-icon{ opacity:1; filter:none; transform:scale(1.05); }
+
+.row{ display:flex; align-items:center; gap:.5rem; margin:.35rem 0; }
+.score-total{ margin-left:auto; font-variant-numeric: tabular-nums; }
+
+/* --- Cards per player & dealer explanation --- */
+.cards-per-player{
+  position:relative; background:#4169E1; color:#fff;
+  border:1px solid #3658ba; border-radius:.9rem; padding:.8rem;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+}
+.dealer-expl{
+  position:relative; background:#355E3B; color:#fff;
+  border:1px solid #2a4b2f; border-radius:.9rem; padding:.8rem;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+}
+
+/* --- Inputs --- */
+.score-input{
+  width: 100%; padding:.55rem .65rem; border:1px solid var(--line); border-radius:.6rem;
+}
+.name, .player-name-input{
+  width: 100%; padding:.55rem .65rem; border:1px solid var(--line); border-radius:.6rem;
+}
+.score-input:disabled{ background:#f5f5f5; color:var(--muted); }
+.input-error{ border-color:var(--danger) !important; box-shadow:0 0 0 2px rgba(226,34,34,.15); }
+.error-text{ color:var(--danger); font-size:.8rem; margin-top:.25rem; }
+
+/* Ultima evidenza opzionale */
+.ultima-wrap{ display:flex; align-items:center; gap:.4rem; user-select:none; }
+.player-card.is-ultima{ outline:2px dashed #7c3aed; outline-offset:3px; }
+
+/* Azioni speciali */
+.btn-cappotto{ background:#111827; color:#fff; border-color:#111827; }
+.btn-accuso-three{ background:#355E3B; color:#fff; border-color:#355E3B; }
+.btn-accuso-four{ background:#355E3B; color:#fff; border-color:#355E3B; }
+.btn-leave{ background:#A50021; color:#fff; border-color:#A50021; }
+
+/* --- Error banner --- */
+#errorArea{
+  margin:.75rem 0; padding:.6rem .8rem;
+  border:1px solid #f4b4b4; background:#ffe9e9; color:#8a1f1f;
+  border-radius:.6rem; font-size:.95rem;
+}
+#errorArea[hidden]{ display:none; }
+
+/* --- Modal base (scelta rientra/esci) --- */
+#modalOverlay[hidden]{ display:none; }
+#modalOverlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.35);
+  display:flex; align-items:center; justify-content:center; z-index:9999;
+  backdrop-filter: blur(2px);
+}
+#modalDialog{
+  background:#fff; border-radius:.9rem; padding:1rem 1.25rem; max-width:420px; width:min(92%, 520px);
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+#modalTitle{ margin:.2rem 0 .4rem; font-size:1.15rem; }
+.modal-actions{ display:flex; gap:.5rem; justify-content:flex-end; margin-top:1rem }
+#modalPrimary{ background:var(--brand); color:#fff; border:0; padding:.5rem .75rem; border-radius:.6rem; }
+#modalPrimary:hover{ filter:brightness(.98); }
+#modalSecondary{ background:#eee; border:0; padding:.5rem .75rem; border-radius:.6rem; }
+#modalSecondary:hover{ background:#e7e7e7; }
+
+/* --- Settings Modal --- */
+#settingsOverlay[hidden]{ display:none; }
+#settingsOverlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.35);
+  display:flex; align-items:center; justify-content:center; z-index:9999;
+  backdrop-filter: blur(2px);
+}
+#settingsDialog{
+  background:#fff; border-radius:.9rem; padding:1rem 1.25rem; max-width:420px; width:min(92%, 520px);
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+#settingsTitle{ margin:.2rem 0 .4rem; font-size:1.15rem; }
+.settings-grid{ display:grid; grid-template-columns:1fr; gap:.75rem; margin:.5rem 0; }
+#settingsDialog input{ width:100%; padding:.5rem .6rem; border:1px solid var(--line); border-radius:.6rem; }
+
+/* --- Name Modal (Aggiungi giocatore) --- */
+/* FIX: usa l'ID reale dell'overlay presente in index.html */
+#addPlayerDialog[hidden]{ display:none; }
+#addPlayerDialog{
+  position:fixed; inset:0; background:rgba(0,0,0,.35);
+  display:flex; align-items:center; justify-content:center; z-index:9999;
+  backdrop-filter: blur(2px);
+}
+#modalNameDialog{
+  background:#fff; border-radius:.9rem; padding:1rem 1.25rem; max-width:420px; width:min(92%, 520px);
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+#modalNameTitle{margin:.2rem 0 .4rem; font-size:1.15rem;}
+.modalNameActions{ display:grid; grid-template-columns:1fr auto auto; gap:.5rem; align-items:center; margin-top:.75rem }
+.player-name-input{
+  width: 100%; padding:.55rem .65rem; border:1px solid var(--line); border-radius:.6rem;
+}
+#confirmAddPlayer{ background:var(--brand); color:#fff; border:0; padding:.55rem .8rem; border-radius:.6rem; }
+#confirmAddPlayer:hover{ filter:brightness(.98); }
+#cancelAddPlayer{ background:#eee; border:0; padding:.55rem .8rem; border-radius:.6rem; }
+#cancelAddPlayer:hover{ background:#e7e7e7; }
+
+/* --- History Modal --- */
+#historyOverlay[hidden]{ display:none; }
+#historyOverlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.35);
+  display:flex; align-items:center; justify-content:center; z-index:9999;
+  backdrop-filter: blur(2px);
+}
+#historyDialog{
+  background:#fff; border-radius:.9rem; padding:1rem 1.25rem; max-width:900px; width:min(96%, 1100px);
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.history-scroller{
+  overflow:auto; max-height:min(60vh, 70rem); border:1px solid var(--line); border-radius:.6rem;
+}
+.history-table{
+  width:100%; border-collapse:collapse; font-variant-numeric: tabular-nums;
+}
+.history-table th, .history-table td{
+  padding:.5rem .6rem; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap;
+}
+.history-table th:first-child, .history-table td:first-child{ text-align:left; position:sticky; left:0; background:#fff; }
+.history-table thead th{
+  position:sticky; top:0; background:#f9fafb; z-index:1;
+}
+.ultima-cell{ color:var(--danger); font-weight:700; }
+.cappotto-cell {color: #1E88E5; /* verde scuro elegante */ font-weight: 700; }
+.player-reenters{ color:var(--muted); font-weight:600; margin-left:.25rem; font-size:.9em; }
+
+
+/* --- Motion safety --- */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important;
+     transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+}
+

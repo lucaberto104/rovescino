@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rovescino - Punteggio</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a7">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Rovescino: Gestione Punteggi</h1>
+    <button id="settingsBtn" title="Impostazioni">⚙️</button>
+  </header>
+
+  <main>
+    <div class="bar">
+      <button id="add-player">+ Aggiungi giocatore</button>
+      <span id="restanoBadge" aria-live="polite">Restano: 21</span>
+      <button id="update-round" disabled>Aggiorna mano</button>
+      <span class="spacer"></span>
+      <button id="historyBtn" title="Storico">📜 Storico</button>
+      <button id="undoBtn" title="Annulla (Undo)">↶</button>
+      <button id="redoBtn" title="Ripeti (Redo)">↷</button>
+      <button id="resetBtn" title="Nuova partita">Reset</button>
+    </div>
+
+    <section id="score-cards" class="score-cards"></section>
+    
+    <p id="cards-per-player" class="cards-per-player"></p>
+    <p class="dealer-expl">Il giocatore evidenziato in giallo è il mazziere del turno corrente<p>
+
+    <!-- Modal scelta rientra/esci -->
+    <div id="modalOverlay" hidden>
+      <div id="modalDialog" role="dialog" aria-modal="true"
+           aria-labelledby="modalTitle" aria-describedby="modalDesc" tabindex="-1">
+        <h2 id="modalTitle">Sforamento target</h2>
+        <p id="modalDesc"></p>
+        <div class="modal-actions">
+          <button id="modalPrimary" type = "button">Rientra</button>
+          <button id="modalSecondary" type = "button">Esci</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal Storico -->
+    <div id="historyOverlay" hidden>
+      <div id="historyDialog" role="dialog" aria-modal="true" aria-labelledby="historyTitle" aria-describedby="historyDesc" tabindex="-1">
+        <h2 id="historyTitle">Storico partita</h2>
+        <p id="historyDesc">Punteggi finali per sfoglio. In rosso, il giocatore che ha fatto l’ultima mano. In blu, il giocatore che ha fatto cappotto.</p>
+        <div class="history-scroller">
+          <table id="historyTable" class="history-table"></table>
+        </div>
+        <div class="modal-actions">
+          <button id="historyClose">Chiudi</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Modal impostazioni -->
+    <div id="settingsOverlay" hidden>
+      <div id="settingsDialog" role="dialog" aria-modal="true"
+           aria-labelledby="settingsTitle" aria-describedby="settingsDesc" tabindex="-1">
+        <h2 id="settingsTitle">Impostazioni</h2>
+        <div id="settingsDesc" class="settings-grid">
+          <label>
+            Base per mano:
+            <input id="baseInput" type="number" min="1" step="1" inputmode="numeric" value="21">
+          </label>
+          <label>
+            Imposta eliminazione a:
+            <input id="targetInput" type="number" min="1" step="1" inputmode="numeric" value="101">
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button id="settingsSave">Salva</button>
+          <button id="settingsCancel">Annulla</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal Name -->
+    <div id="addPlayerDialog" hidden>
+      <div id="modalNameDialog" role="dialog" aria-modal="true" aria-labelledby="modalNameTitle" aria-describedby="modalNameDesc" tabindex="-1">
+        <h2 id="modalNameTitle">Inserisci Giocatore</h2>
+        <p id="modalNameDesc"></p>
+        <div class="modalNameActions">
+          <input class = "player-name-input" id="playerNameInput" name="playerNameInput" type="text" placeholder="Inserisci Nome Giocatore" required minlength="1" maxlength="40"/>
+          <button id="cancelAddPlayer" type="button" value="cancel" formmethod="dialog">Annulla</button>
+          <button id="confirmAddPlayer" value="confirm" type="button">Aggiungi</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="errorArea" role="alert" aria-live="assertive" hidden tabindex="-1"></div>
+  </main>
+
+  <script src="new_app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+</body>
+</html>
